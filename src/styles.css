@@ -1,0 +1,277 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-glow: var(--primary-glow);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-critical: var(--critical);
+  --color-critical-foreground: var(--critical-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-glow: 0 0 40px -8px var(--primary);
+  --shadow-elevated: 0 20px 60px -20px oklch(0 0 0 / 0.5);
+}
+
+:root {
+  --radius: 0.875rem;
+
+  /* Dark-first emergency dashboard palette */
+  --background: oklch(0.18 0.02 250);
+  --foreground: oklch(0.98 0.005 250);
+
+  --card: oklch(0.22 0.025 250);
+  --card-foreground: oklch(0.98 0.005 250);
+
+  --popover: oklch(0.22 0.025 250);
+  --popover-foreground: oklch(0.98 0.005 250);
+
+  /* Electric coral — emergency primary */
+  --primary: oklch(0.7 0.22 25);
+  --primary-foreground: oklch(0.99 0.005 250);
+  --primary-glow: oklch(0.78 0.2 30);
+
+  --secondary: oklch(0.28 0.03 250);
+  --secondary-foreground: oklch(0.98 0.005 250);
+
+  --muted: oklch(0.26 0.02 250);
+  --muted-foreground: oklch(0.7 0.02 250);
+
+  /* Cyan accent */
+  --accent: oklch(0.75 0.15 200);
+  --accent-foreground: oklch(0.15 0.02 250);
+
+  --destructive: oklch(0.6 0.25 20);
+  --destructive-foreground: oklch(0.99 0.005 250);
+
+  --success: oklch(0.72 0.18 155);
+  --success-foreground: oklch(0.15 0.02 250);
+
+  --warning: oklch(0.8 0.18 80);
+  --warning-foreground: oklch(0.15 0.02 250);
+
+  --critical: oklch(0.62 0.27 18);
+  --critical-foreground: oklch(0.99 0.005 250);
+
+  --border: oklch(0.3 0.02 250);
+  --input: oklch(0.28 0.025 250);
+  --ring: oklch(0.7 0.22 25);
+
+  --chart-1: oklch(0.7 0.22 25);
+  --chart-2: oklch(0.75 0.15 200);
+  --chart-3: oklch(0.72 0.18 155);
+  --chart-4: oklch(0.8 0.18 80);
+  --chart-5: oklch(0.65 0.2 300);
+
+  /* Gradients */
+  --gradient-hero: linear-gradient(135deg, oklch(0.7 0.22 25) 0%, oklch(0.65 0.2 300) 100%);
+  --gradient-emergency: linear-gradient(135deg, oklch(0.62 0.27 18) 0%, oklch(0.7 0.22 25) 100%);
+  --gradient-cool: linear-gradient(135deg, oklch(0.75 0.15 200) 0%, oklch(0.65 0.2 250) 100%);
+  --gradient-mesh: radial-gradient(at 20% 20%, oklch(0.7 0.22 25 / 0.25) 0px, transparent 50%),
+                   radial-gradient(at 80% 0%, oklch(0.65 0.2 300 / 0.2) 0px, transparent 50%),
+                   radial-gradient(at 80% 80%, oklch(0.75 0.15 200 / 0.2) 0px, transparent 50%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html, body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: oklch(0.22 0.025 250 / 0.6);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid oklch(1 0 0 / 0.08);
+  }
+
+  .glass-strong {
+    background: oklch(0.22 0.025 250 / 0.85);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid oklch(1 0 0 / 0.1);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .gradient-emergency {
+    background: var(--gradient-emergency);
+  }
+
+  .gradient-cool {
+    background: var(--gradient-cool);
+  }
+
+  .gradient-mesh {
+    background: var(--gradient-mesh);
+  }
+
+  @keyframes mesh-drift {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(0, -14px, 0) scale(1.04); }
+    100% { transform: translate3d(0, 0, 0) scale(1); }
+  }
+
+  .animate-mesh-drift {
+    animation: mesh-drift 14s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .text-gradient {
+    background: var(--gradient-hero);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 60px -10px var(--primary);
+  }
+
+  .pulse-ring {
+    box-shadow: 0 0 0 0 var(--primary);
+    animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 oklch(0.7 0.22 25 / 0.6); }
+    70% { box-shadow: 0 0 0 20px oklch(0.7 0.22 25 / 0); }
+    100% { box-shadow: 0 0 0 0 oklch(0.7 0.22 25 / 0); }
+  }
+
+  @keyframes float-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-float-up {
+    animation: float-up 0.6s ease-out backwards;
+  }
+
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @keyframes orb-float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.05); }
+  }
+
+  .animate-orb-float {
+    animation: orb-float 6s ease-in-out infinite;
+  }
+
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.35s ease-out;
+  }
+
+  @keyframes sos-pulse {
+    0% { box-shadow: 0 0 0 0 oklch(0.62 0.27 18 / 0.7), 0 20px 60px -20px oklch(0 0 0 / 0.5); }
+    70% { box-shadow: 0 0 0 16px oklch(0.62 0.27 18 / 0), 0 20px 60px -20px oklch(0 0 0 / 0.5); }
+    100% { box-shadow: 0 0 0 0 oklch(0.62 0.27 18 / 0), 0 20px 60px -20px oklch(0 0 0 / 0.5); }
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .card-3d {
+    transform-style: preserve-3d;
+    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    box-shadow: 0 14px 32px -20px oklch(0 0 0 / 0.55);
+  }
+
+  .card-3d:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 28px 50px -26px oklch(0 0 0 / 0.7);
+    border-color: oklch(0.7 0.22 25 / 0.45);
+  }
+
+  .tilt-soft {
+    transform-style: preserve-3d;
+    transition: transform 280ms ease, box-shadow 280ms ease;
+  }
+
+  .tilt-soft:hover {
+    transform: perspective(1100px) rotateX(3.2deg) rotateY(-3.2deg) translateY(-4px);
+    box-shadow: 0 30px 54px -30px oklch(0 0 0 / 0.8);
+  }
+}
+
+/* Leaflet overrides for dark theme */
+.leaflet-container {
+  background: oklch(0.15 0.02 250) !important;
+  font-family: var(--font-sans) !important;
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background: oklch(0.22 0.025 250) !important;
+  color: var(--color-foreground) !important;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 40px -10px oklch(0 0 0 / 0.6) !important;
+}
+.leaflet-control-zoom a {
+  background: oklch(0.22 0.025 250) !important;
+  color: var(--color-foreground) !important;
+  border-color: var(--color-border) !important;
+}
+.leaflet-control-attribution {
+  background: oklch(0.22 0.025 250 / 0.8) !important;
+  color: var(--color-muted-foreground) !important;
+}

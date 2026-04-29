@@ -1,0 +1,220 @@
+import { createContext, useContext, useState, type ReactNode } from "react";
+
+export type Locale = "en" | "hi" | "kn";
+
+const translations: Record<Locale, Record<string, string>> = {
+  en: {
+    "nav.map": "Live Map",
+    "nav.report": "Report",
+    "nav.volunteer": "Volunteer",
+    "nav.admin": "Admin",
+    "nav.about": "About Us",
+    "nav.signin": "Sign in",
+    "nav.signout": "Sign out",
+    "nav.helplines": "Helplines",
+    "hero.badge": "Live coordination grid · Bengaluru region",
+    "hero.h1a": "When seconds count,",
+    "hero.h1b": "help finds the way.",
+    "hero.sub": "ReliefLink AI connects citizens, NGOs and volunteers with realtime maps and AI-prioritized rescue requests.",
+    "hero.cta.report": "Report Emergency",
+    "hero.cta.map": "View Live Map",
+    "stat.dispatch": "Avg dispatch",
+    "stat.ai": "AI priority engine",
+    "stat.sync": "Realtime sync",
+    "stats.total": "Total requests",
+    "stats.completed": "Resolved",
+    "stats.volunteers": "Volunteers",
+    "sos.label": "SOS",
+    "features.tag": "Features",
+    "features.heading": "Built for high-pressure response",
+    "howItWorks.tag": "How it works",
+    "howItWorks.heading": "Three steps to faster response",
+    "howItWorks.sub": "From report to rescue in a coordinated, real-time flow.",
+    "howItWorks.step1.title": "Report instantly",
+    "howItWorks.step1.desc": "Citizens submit emergency details, location, and urgent needs in seconds.",
+    "howItWorks.step2.title": "AI prioritizes",
+    "howItWorks.step2.desc": "The system scores severity and highlights critical cases first.",
+    "howItWorks.step3.title": "Volunteers respond",
+    "howItWorks.step3.desc": "Nearby responders accept tasks and update status live.",
+    "cta.heading": "Join the volunteer network",
+    "cta.sub": "Help your city respond faster during floods, fires, and medical emergencies.",
+    "cta.button": "Become a volunteer",
+    "submit.h1": "Report Emergency",
+    "submit.sub": "Every detail helps responders act faster.",
+    "submit.name": "Your name",
+    "submit.phone": "Phone",
+    "submit.disaster": "Disaster type",
+    "submit.need": "What's needed",
+    "submit.people": "People affected",
+    "submit.desc": "Describe the situation",
+    "submit.photo": "Photo URL (optional)",
+    "submit.submit": "Send Emergency Request",
+    "submit.sending": "Sending…",
+    "volunteer.h1": "Volunteer Dashboard",
+    "volunteer.active": "Active",
+    "volunteer.completed": "Completed",
+    "volunteer.nearby": "Open nearby",
+    "volunteer.critical": "Critical",
+    "admin.h1": "Operations Overview",
+    "admin.sub": "Live view across all requests, volunteers and missions.",
+    "helpline.title": "Emergency Helplines",
+    "helpline.subtitle": "Tap to call",
+    "demo.label": "DEMO",
+    "demo.on": "Demo mode ON",
+    "demo.off": "Demo mode OFF",
+  },
+  hi: {
+    "nav.map": "लाइव मैप",
+    "nav.report": "रिपोर्ट",
+    "nav.volunteer": "स्वयंसेवक",
+    "nav.admin": "व्यवस्थापक",
+    "nav.about": "हमारे बारे में",
+    "nav.signin": "साइन इन",
+    "nav.signout": "साइन आउट",
+    "nav.helplines": "हेल्पलाइन",
+    "hero.badge": "लाइव समन्वय ग्रिड · बेंगलुरु क्षेत्र",
+    "hero.h1a": "जब हर पल मायने रखता है,",
+    "hero.h1b": "मदद राह ढूंढ लेती है।",
+    "hero.sub": "रियलटाइम मैप और AI-प्राथमिकता वाले बचाव अनुरोधों के साथ नागरिकों, NGO और स्वयंसेवकों को जोड़ता है।",
+    "hero.cta.report": "आपातकाल रिपोर्ट करें",
+    "hero.cta.map": "लाइव मैप देखें",
+    "stat.dispatch": "औसत डिस्पैच",
+    "stat.ai": "AI प्राथमिकता",
+    "stat.sync": "रियलटाइम सिंक",
+    "stats.total": "कुल अनुरोध",
+    "stats.completed": "समाधान किए गए",
+    "stats.volunteers": "स्वयंसेवक",
+    "sos.label": "SOS",
+    "features.tag": "विशेषताएं",
+    "features.heading": "तेज़ आपदा प्रतिक्रिया के लिए बनाया गया",
+    "howItWorks.tag": "यह कैसे काम करता है",
+    "howItWorks.heading": "तेज़ प्रतिक्रिया के लिए 3 चरण",
+    "howItWorks.sub": "रिपोर्ट से राहत तक एक समन्वित, रियलटाइम प्रक्रिया।",
+    "howItWorks.step1.title": "तुरंत रिपोर्ट करें",
+    "howItWorks.step1.desc": "नागरिक कुछ सेकंड में स्थान और ज़रूरतों के साथ आपात जानकारी भेजते हैं।",
+    "howItWorks.step2.title": "AI प्राथमिकता तय करता है",
+    "howItWorks.step2.desc": "सिस्टम गंभीरता के आधार पर सबसे महत्वपूर्ण मामलों को पहले दिखाता है।",
+    "howItWorks.step3.title": "स्वयंसेवक प्रतिक्रिया देते हैं",
+    "howItWorks.step3.desc": "पास के स्वयंसेवक कार्य स्वीकार करते हैं और लाइव स्थिति अपडेट करते हैं।",
+    "cta.heading": "स्वयंसेवक नेटवर्क से जुड़ें",
+    "cta.sub": "बाढ़, आग और चिकित्सा आपात स्थितियों में शहर की तेज़ मदद करें।",
+    "cta.button": "स्वयंसेवक बनें",
+    "submit.h1": "आपातकाल रिपोर्ट करें",
+    "submit.sub": "हर विवरण मदद करता है।",
+    "submit.name": "आपका नाम",
+    "submit.phone": "फ़ोन",
+    "submit.disaster": "आपदा का प्रकार",
+    "submit.need": "क्या चाहिए",
+    "submit.people": "प्रभावित लोग",
+    "submit.desc": "स्थिति का वर्णन करें",
+    "submit.photo": "फ़ोटो URL (वैकल्पिक)",
+    "submit.submit": "आपातकालीन अनुरोध भेजें",
+    "submit.sending": "भेज रहे हैं…",
+    "volunteer.h1": "स्वयंसेवक डैशबोर्ड",
+    "volunteer.active": "सक्रिय",
+    "volunteer.completed": "पूर्ण",
+    "volunteer.nearby": "पास में खुले",
+    "volunteer.critical": "गंभीर",
+    "admin.h1": "संचालन अवलोकन",
+    "admin.sub": "सभी अनुरोधों का लाइव दृश्य।",
+    "helpline.title": "आपातकालीन हेल्पलाइन",
+    "helpline.subtitle": "कॉल करने के लिए टैप करें",
+    "demo.label": "डेमो",
+    "demo.on": "डेमो मोड चालू",
+    "demo.off": "डेमो मोड बंद",
+  },
+  kn: {
+    "nav.map": "ಲೈವ್ ನಕ್ಷೆ",
+    "nav.report": "ವರದಿ",
+    "nav.volunteer": "ಸ್ವಯಂಸೇವಕ",
+    "nav.admin": "ನಿರ್ವಾಹಕ",
+    "nav.about": "ನಮ್ಮ ಬಗ್ಗೆ",
+    "nav.signin": "ಸೈನ್ ಇನ್",
+    "nav.signout": "ಸೈನ್ ಔಟ್",
+    "nav.helplines": "ಸಹಾಯ ಮಾರ್ಗ",
+    "hero.badge": "ಲೈವ್ ಸಮನ್ವಯ ಗ್ರಿಡ್ · ಬೆಂಗಳೂರು",
+    "hero.h1a": "ಪ್ರತಿ ಕ್ಷಣ ಮುಖ್ಯ,",
+    "hero.h1b": "ಸಹಾಯ ದಾರಿ ಕಂಡುಕೊಳ್ಳುತ್ತದೆ.",
+    "hero.sub": "ರಿಯಲ್‌ಟೈಮ್ ನಕ್ಷೆಗಳು ಮತ್ತು AI-ಆದ್ಯತೆಯ ರಕ್ಷಣಾ ವಿನಂತಿಗಳೊಂದಿಗೆ ನಾಗರಿಕರು, NGO ಮತ್ತು ಸ್ವಯಂಸೇವಕರನ್ನು ಸಂಪರ್ಕಿಸುತ್ತದೆ.",
+    "hero.cta.report": "ತುರ್ತು ವರದಿ ಮಾಡಿ",
+    "hero.cta.map": "ಲೈವ್ ನಕ್ಷೆ ನೋಡಿ",
+    "stat.dispatch": "ಸರಾಸರಿ ಕಳುಹಿಸುವಿಕೆ",
+    "stat.ai": "AI ಆದ್ಯತೆ",
+    "stat.sync": "ರಿಯಲ್‌ಟೈಮ್ ಸಿಂಕ್",
+    "stats.total": "ಒಟ್ಟು ವಿನಂತಿಗಳು",
+    "stats.completed": "ಪರಿಹರಿಸಲಾಗಿದೆ",
+    "stats.volunteers": "ಸ್ವಯಂಸೇವಕರು",
+    "sos.label": "SOS",
+    "features.tag": "ವೈಶಿಷ್ಟ್ಯಗಳು",
+    "features.heading": "ತುರ್ತು ಪ್ರತಿಕ್ರಿಯೆಗೆ ನಿರ್ಮಿತ ವ್ಯವಸ್ಥೆ",
+    "howItWorks.tag": "ಇದು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ",
+    "howItWorks.heading": "ವೇಗವಾದ ಸಹಾಯಕ್ಕೆ 3 ಹಂತಗಳು",
+    "howItWorks.sub": "ವರದಿಯಿಂದ ನೆರವುವರೆಗೆ ಸಮನ್ವಯಿತ ರಿಯಲ್‌ಟೈಮ್ ಪ್ರಕ್ರಿಯೆ.",
+    "howItWorks.step1.title": "ತಕ್ಷಣ ವರದಿ ಮಾಡಿ",
+    "howItWorks.step1.desc": "ನಾಗರಿಕರು ಸ್ಥಳ ಮತ್ತು ಅವಶ್ಯಕತೆಗಳೊಂದಿಗೆ ತುರ್ತು ಮಾಹಿತಿಯನ್ನು ಸೆಕೆಂಡುಗಳಲ್ಲಿ ಕಳುಹಿಸುತ್ತಾರೆ.",
+    "howItWorks.step2.title": "AI ಆದ್ಯತೆ ನಿಗದಿಗೊಳಿಸುತ್ತದೆ",
+    "howItWorks.step2.desc": "ವ್ಯವಸ್ಥೆ ಗಂಭೀರತೆಯ ಆಧಾರದ ಮೇಲೆ ಅತಿ ಅಗತ್ಯ ಪ್ರಕರಣಗಳನ್ನು ಮೊದಲು ತೋರಿಸುತ್ತದೆ.",
+    "howItWorks.step3.title": "ಸ್ವಯಂಸೇವಕರು ಸ್ಪಂದಿಸುತ್ತಾರೆ",
+    "howItWorks.step3.desc": "ಹತ್ತಿರದ ಸ್ಪಂದಕರು ಕೆಲಸಗಳನ್ನು ಸ್ವೀಕರಿಸಿ ಸ್ಥಿತಿಯನ್ನು ಲೈವ್ ಅಪ್ಡೇಟ್ ಮಾಡುತ್ತಾರೆ.",
+    "cta.heading": "ಸ್ವಯಂಸೇವಕ ಜಾಲಕ್ಕೆ ಸೇರಿ",
+    "cta.sub": "ನೆರೆ, ಬೆಂಕಿ ಮತ್ತು ವೈದ್ಯಕೀಯ ತುರ್ತು ಪರಿಸ್ಥಿತಿಗಳಲ್ಲಿ ನಗರಕ್ಕೆ ವೇಗವಾಗಿ ನೆರವಾಗಿ.",
+    "cta.button": "ಸ್ವಯಂಸೇವಕರಾಗಿ ಸೇರಿ",
+    "submit.h1": "ತುರ್ತು ವರದಿ ಮಾಡಿ",
+    "submit.sub": "ಪ್ರತಿ ವಿವರವೂ ಮುಖ್ಯ.",
+    "submit.name": "ನಿಮ್ಮ ಹೆಸರು",
+    "submit.phone": "ಫೋನ್",
+    "submit.disaster": "ವಿಪತ್ತಿನ ಪ್ರಕಾರ",
+    "submit.need": "ಏನು ಬೇಕು",
+    "submit.people": "ಪ್ರಭಾವಿತ ಜನರು",
+    "submit.desc": "ಪರಿಸ್ಥಿತಿಯನ್ನು ವಿವರಿಸಿ",
+    "submit.photo": "ಫೋಟೋ URL (ಐಚ್ಛಿಕ)",
+    "submit.submit": "ತುರ್ತು ವಿನಂತಿ ಕಳುಹಿಸಿ",
+    "submit.sending": "ಕಳುಹಿಸುತ್ತಿದೆ…",
+    "volunteer.h1": "ಸ್ವಯಂಸೇವಕ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+    "volunteer.active": "ಸಕ್ರಿಯ",
+    "volunteer.completed": "ಪೂರ್ಣ",
+    "volunteer.nearby": "ಹತ್ತಿರ ತೆರೆದಿದೆ",
+    "volunteer.critical": "ನಿರ್ಣಾಯಕ",
+    "admin.h1": "ಕಾರ್ಯಾಚರಣೆ ಅವಲೋಕನ",
+    "admin.sub": "ಎಲ್ಲಾ ವಿನಂತಿಗಳ ಲೈವ್ ವೀಕ್ಷಣೆ.",
+    "helpline.title": "ತುರ್ತು ಸಹಾಯ ಮಾರ್ಗ",
+    "helpline.subtitle": "ಕರೆ ಮಾಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ",
+    "demo.label": "ಡೆಮೊ",
+    "demo.on": "ಡೆಮೊ ಮೋಡ್ ಆನ್",
+    "demo.off": "ಡೆಮೊ ಮೋಡ್ ಆಫ್",
+  },
+};
+
+interface I18nContextValue {
+  locale: Locale;
+  setLocale: (l: Locale) => void;
+  t: (key: string) => string;
+}
+
+const I18nContext = createContext<I18nContextValue | undefined>(undefined);
+
+export function I18nProvider({ children }: { children: ReactNode }) {
+  const [locale, setLocaleState] = useState<Locale>(() => {
+    if (typeof window !== "undefined") {
+      return (localStorage.getItem("rl_locale") as Locale) || "en";
+    }
+    return "en";
+  });
+
+  const setLocale = (l: Locale) => {
+    setLocaleState(l);
+    if (typeof window !== "undefined") localStorage.setItem("rl_locale", l);
+  };
+
+  const t = (key: string): string => {
+    return translations[locale][key] ?? translations["en"][key] ?? key;
+  };
+
+  return <I18nContext.Provider value={{ locale, setLocale, t }}>{children}</I18nContext.Provider>;
+}
+
+export function useTranslation() {
+  const ctx = useContext(I18nContext);
+  if (!ctx) throw new Error("useTranslation must be inside I18nProvider");
+  return ctx;
+}
